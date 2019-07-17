@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.company.sys.dao.SysUserRoleDao">
+	<!--实现向对应表中写入数据 -->
+	<insert id="insertObjects">
+		insert into sys_user_roles
+		(user_id,role_id)
+		values
+		<foreach collection="roleIds" separator="," item="item">
+			(#{userId},#{item})
+		</foreach>
+	</insert>
+
+	 <!--  <select id="findRoleIdsByUserId" resultType="int">
+		select role_id
+		from
+		sys_user_roles
+		where user_id=#{id}
+	</select>   -->
+
+	<!--9.删除关系数据 -->
+	<delete id="deleteObjectsByUserId" parameterType="int">
+		delete from
+		sys_user_roles
+		where user_id=#{userId}
+	</delete>
+
+	<!--根据用户id查询角色id(可能是多个) shiro框架的授权管理也用到此方法 -->
+	<select id="findRoleIdsByUserId" resultType="int">
+		select role_id
+		from sys_user_roles
+		where user_id=#{userId}
+	</select>
+
+
+</mapper>
